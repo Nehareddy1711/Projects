@@ -22,10 +22,8 @@
         <input type="text" name="email" placeholder="Email" id="email">
         <input type="password" name="password" placeholder="password " id="password">
         <input type="password" name="password" placeholder="Confirm Password" id="confirm-password">
-
         <button type="submit">Signup</button>
 </form>
-
 </fieldset>
 
 <!-- // signup api-https://instagram-express-app.vercel.app/api/auth/signup -->
@@ -86,43 +84,17 @@
         })
         console.log(response) // this response will be redable stream
          let res = await response.json() // convets this response to json object
-         console.log(res) // 
+         console.log(res) 
 
-    //      res = {
-    // "success": true,
-    // "message": "User saved successfully",
-    // "data": {
-    //     "name": "Swati",
-    //     "email": "swati.6031@gmail.com",
-    //     "password": "$2b$10$dRbv7C3TsbEe/NB1HVdpy.AKDGQGt6f2SDls5c81ZBglo0HyBin7.",
-    //     "_id": "66026288fd78819ef91894ac",
-    //     "createdAt": "2024-03-26T05:52:08.558Z",
-    //     "updatedAt": "2024-03-26T05:52:08.566Z",
-    //     "__v": 0,
-    //     "token": "c1f7d338-9cd8-45a3-9ed1-9a7e05c68203"
-    // }
-// }
-        
        // display the success or failure message in that paragraph: 
        message.innerHTML = res.message
-
        }
         catch(err){
             console.log(err);
-
         }
-        
-    
-
         //fetch 
-
-
-
-
     }
 
 </script>
-
-
 </body>
 </html>
