@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Human Verification</title>
+  <style>
+    .img1 {
+content: url(https://picsum.photos/id/237/200/300);
+}
+.img2 {
+content: url(https://picsum.photos/seed/picsum/200/300);
+}
+.img3 {
+content: url(https://picsum.photos/200/300?grayscale);
+
+}
+.img4 {
+content: url(https://picsum.photos/200/300/);
+}
+.img5 {
+content: url(https://picsum.photos/200/300.jpg);
+}
+.img6 {
+content: url(https://picsum.photos/200/300.jpg);
+}
+img {
+margin: 10px;
+border: 5px solid #555;
+width: 10%;
+}
+.flex {
+display: flex;
+justify-content: center;
+}
+.selected {
+border: 5px solid rgb(0, 195, 255);
+}
+p {
+text-align: center;
+}
+button {
+margin: 20px;
+}
+  </style>
+</head>
+<body>
+
+<h3 id="h">Please click on the identical tiles to verify that you are not a robot.</h3>
+
+<div id="imageContainer">
+</div>
+    
+<button id="reset" style="display: none;">Reset</button>
+<button id="verify" style="display: none;">Verify</button>
+<p id="para" style="display: none;"></p>
+
+<script>
+  const imageContainer = document.getElementById('imageContainer');
+  const resetButton = document.getElementById('reset');
+  const verifyButton = document.getElementById('verify');
+  const para = document.getElementById('para');
+  let clickedImages = [];
+
+  // Function to shuffle array elements
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+  // Function to create and append image elements
+  function createImageElement(src, className) {
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = 'Image';
+    img.classList.add('tile', className);
+    img.addEventListener('click', handleImageClick);
+    return img;
+  }
+
+  // Function to reset the game
+  function reset() {
+    clickedImages = [];
+    resetButton.style.display = 'none';
+    verifyButton.style.display = 'none';
+    para.style.display = 'none';
+    para.textContent = '';
+    imageContainer.innerHTML = '';
+    const classNames = ['img1', 'img2', 'img3', 'img4', 'img5', 'img6'];
+    shuffle(classNames);
+    classNames.forEach(className => {
+      const img = createImageElement(`image${Math.floor(Math.random() * 6) + 1}.jpg`, className);
+      imageContainer.appendChild(img);
+    });
+  }
+
+  // Function to handle image clicks
+  function handleImageClick(event) {
+    const clickedImg = event.target;
+    if (!clickedImages.includes(clickedImg) && clickedImages.length < 2) {
+      clickedImages.push(clickedImg);
+      clickedImg.classList.add('selected');
+    }
+    if (clickedImages.length === 2) {
+      verifyButton.style.display = 'inline-block';
+    }
+    if (clickedImages.length > 2) {
+      para.style.display = 'block';
+      para.textContent = 'You can select a maximum of two images.';
+    }
+  }
+
+  // Function to handle verify button click
+  function handleVerifyClick() {
+    verifyButton.innerHTML = 'Verifying...';
+    setTimeout(() => {
+      if (clickedImages[0].classList.value === clickedImages[1].classList.value) {
+        para.textContent = 'You are a human. Congratulations!';
+      } else {
+        para.textContent = "We can't verify you as a human. You selected the non-identical tiles.";
+      }
+      verifyButton.style.display = 'none';
+      verifyButton.innerHTML = 'Verify';
+    }, 2000);
+  }
+
+  // Attach event listeners
+  resetButton.addEventListener('click', reset);
+  verifyButton.addEventListener('click', handleVerifyClick);
+
+  // Initial game setup
+  reset();
+</script>
+
+</body>
+</html>
